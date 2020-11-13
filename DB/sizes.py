@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
 from os import path
 from .reading_files import *
 from DB import FOLDER

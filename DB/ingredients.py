@@ -1,5 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
 from os import path
-from .reading_files import *
+from . import reading_files
 from DB import FOLDER
 
 
@@ -11,7 +15,7 @@ def get_ingredients():
 	
 	if path.exists(file_path):
 		# Donde se guardarán los ingredientes
-		dict_ingredients = get_dictionary(file_path)
+		dict_ingredients = reading_files.get_dictionary(file_path)
 		return dict_ingredients
 	else:
 		print("ingredientes")
