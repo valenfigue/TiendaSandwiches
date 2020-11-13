@@ -8,15 +8,15 @@ def get_dictionary(file):
 	f.readline()
 	f.readline()
 	while True:  # Lectura de archivo
-		key_ = f.readline()[0:-1]  # Obteniendo la clave
+		key_ = f.readline().rstrip()  # Obteniendo la clave
 		
 		if not key_:  # Si no hay más líneas, rompe el ciclo.
 			break
 		
 		# Obteniendo el nombre
-		name_ = f.readline()[0:-1]
+		name_ = f.readline().rstrip()
 		# Obteniendo su precio
-		price = float(f.readline()[0:-1])
+		price = float(f.readline().rstrip())
 		# Guardando to.do lo anterior, en un diccionario
 		dictionary.update({key_: [name_, price]})
 	f.close()
