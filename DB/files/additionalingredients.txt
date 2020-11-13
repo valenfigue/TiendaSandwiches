@@ -1,0 +1,23 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+ja
+Jamón
+40
+ch
+Champiñones
+35
+pi
+Pimentón
+30
+dq
+Doble Queso
+40
+ac
+Aceitunas
+57.5
+pp
+Pepperoni
+38.5
+sa
+Salchichón
+62.5

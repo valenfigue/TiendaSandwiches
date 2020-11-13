@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+t
+Triple
+580
+d
+Doble
+430
+i
+Individual
+280
