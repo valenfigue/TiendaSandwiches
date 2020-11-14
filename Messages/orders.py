@@ -45,7 +45,7 @@ def ingredients_order(dict_ingredients):
 	"""Maneja la elección de ingredientes adicionales."""
 	
 	# Diccionario que guardará los ingredientes seleccionados.
-	order = {1: dict()}
+	order = {1: dict()}  # Visualización del directorio
 	n_order = max(list(order))  # Número de orden de ingredientes adicionales
 
 	# Se muestran los ingredientes adicionales disponibles.
@@ -54,18 +54,33 @@ def ingredients_order(dict_ingredients):
 	# Proceso de elección de ingredientes adicionales
 	while True:
 		election = input("Indique ingrediente"
-		                 " (<ENTER> para terminar): ").lower()
+		                 " (<ENTER> para terminar): ").rstrip().lower()
 		
 		if election in list(dict_ingredients):
 			# Orden agregada
-			order[n_order] = dict_ingredients.get(election)
+			order.update({n_order: dict_ingredients.get(election)})
 			# Aumenta el número de orden de ingredientes adicionales
 			n_order += 1
-		# elif election == 'reg':
-		elif election == '':
-			break
 		else:
-			print("¡¡Debe elegir el ingrediente adicional correcto!!")
+			if n_order > 1:
+				# Eliminar el ingrediente anterior
+				if election == 'reg':
+					del order[n_order - 1]
+					n_order -= 1
+					print("ATENCIÓN: último ingrediente"
+					      " eliminado de la orden.")
+					continue
+				# Eliminar todos los ingredientes seleccionados
+				elif election == 'can':
+					order.clear()
+					print("ATENCIÓN: todos los ingredientes"
+					      " eliminados de la orden")
+					n_order = 1
+					continue
+			if election == '':  # Terminar
+				break
+			else:
+				print("¡¡Debe elegir el ingrediente adicional correcto!!")
 	return order
 
 
@@ -96,7 +111,6 @@ def subtotal(sub_order):
 			break
 		else:
 			print("¡¡Respuesta inválida!!")
-			continue
 	return confirmation, amount
 
 

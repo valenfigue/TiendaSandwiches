@@ -13,7 +13,7 @@ def poster():
 	      + "**************************\n")
 
 
-def hello():
+def welcome():
 	"""Mensaje de entrada al iniciar el programa."""
 	poster()
 	
