@@ -27,8 +27,8 @@ if __name__ == "__main__":
 		if not dict_ing:
 			msg.error_ingredients()
 		
-		while next_order == 's':
-			print("Sándwich número", n_order)
+		while next_order == 's':  # Mientras que se quiera otra orden...
+			print("\n\nSándwich número", n_order)
 			
 			order.update({n_order: {"size": orders.size_order(dict_sizes)}})
 			
@@ -37,12 +37,15 @@ if __name__ == "__main__":
 				order[n_order].update({"ing": orders.ingredients_order(dict_ing)})
 			
 			next_order, sub_total = orders.subtotal(order.get(n_order))
-			
 			total += sub_total
 			
-			if next_order == 'n':
+			if next_order == 'n':  # Ya no se desean más órdenes..
 				orders.total(n_order, total)
-			else:
+			elif next_order == 'can':  # Cancelar la orden actual.
+				print("ATENCIÓN: ¡¡Orden", n_order, "cancelada!!")
+				next_order = 's'
+				order.pop(n_order)
+			else:  # Realizar otra orden
 				n_order += 1
 	else:
 		msg.error_sizes()

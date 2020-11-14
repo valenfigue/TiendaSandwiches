@@ -25,7 +25,7 @@ def welcome():
 		print("Buenas noches", end=" ")
 	
 	print("""¡Bienvenid@ a SÁNDWICHES UCAB!
-Realice su pedido a continuación...\n""")
+Realice su pedido a continuación...""")
 
 
 def options_list(dict_sizes):

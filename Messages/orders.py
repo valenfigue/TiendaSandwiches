@@ -105,9 +105,12 @@ def subtotal(sub_order):
 	# Mensaje
 	msg.sub_total(order, sandwich, amount)
 	while True:
-		confirmation = input("¿Desea continuar? [s/n]: ").rstrip().lower()
+		print("¿Desea continuar? [s/n]")
+		print("Si desea cancelar toda la orden"
+		      " de este sándwich, ingrese 'can'.")
+		confirmation = input("Respuesta: ").rstrip().lower()
 		
-		if confirmation == 's' or confirmation == 'n':
+		if confirmation == 's' or confirmation == 'n' or confirmation == 'can':
 			break
 		else:
 			print("¡¡Respuesta inválida!!")
@@ -118,7 +121,7 @@ def total(n_sandwiches, amount):
 	"""Muestra el total de sándwiches pedidos y el precio
 	a pagar por todos ellos."""
 	
-	print("El pedido tiene un total de", n_sandwiches,
+	print("\n\nEl pedido tiene un total de", n_sandwiches,
 	      ("sándwich" if n_sandwiches == 1 else "sándwiches") + ",",
 	      "por un monto de", amount)
 	
