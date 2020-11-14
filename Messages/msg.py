@@ -39,14 +39,12 @@ def options_list(dict_sizes):
 		      + str(j["price"]).rjust(30 - len(j["name"]))  # Precio
 		      + ("( " + i + " )").rjust(10))  # Código del pedido
 	print()
-	print("Otras opciones:")
-	print("Regresar" + "( reg )".rjust(40 - len("Regresar")))
-	print()
 
 
 def sizes_list(dict_sizes):
 	"""Muestra el bloque de opciones de tamaños de sándwiches disponibles."""
 	
+	print()
 	print("Por favor, elija el tamaño de su sándwich a ordenar.")
 	options_list(dict_sizes)
 
@@ -54,8 +52,16 @@ def sizes_list(dict_sizes):
 def ingredients_list(dict_sizes):
 	"""Muestra el bloque de opciones de ingredientes adicionales disponibles."""
 	
+	print()
 	print("¿Desea algún ingrediente extra?")
 	options_list(dict_sizes)
+	print("Otras opciones:")
+	print("Cancelar último ingrediente"
+	      + "( reg )".rjust(50 - len("Cancelar último ingrediente")))
+	print("Cancelar todos los ingredientes extras"
+	      + "( can )".rjust(50
+	                        - len("Cancelar todos los ingredientes extras")))
+	print()
 
 
 def error_ingredients():
@@ -78,3 +84,14 @@ def error_sizes():
 	      " no contamos con ingredientes"
 	      " para elaborar nuestros sándwiches.\n"
 	      "Lamentamos las molestias")
+
+
+def sub_total(order, sandwich, amount):
+	"""Mensaje a mostrar al dar el subtotal de la orden del usuario."""
+	
+	print()
+	print("Usted seleccionó un sándwich", order)
+	print()
+	print("Subtotal a pagar por un sándwich " + sandwich
+	      + ": " + str(amount))
+	print("****************************")
