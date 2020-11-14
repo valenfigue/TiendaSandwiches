@@ -23,7 +23,7 @@ def get_dictionary(file):
 		# Obteniendo su precio
 		price = float(f.readline().rstrip())
 		# Guardando to.do lo anterior, en un diccionario
-		dictionary.update({key_: [name_, price]})
+		dictionary.update({key_: {"name": name_, "price": price}})
 	f.close()
 
 	return dictionary

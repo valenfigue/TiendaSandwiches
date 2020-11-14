@@ -35,8 +35,8 @@ def options_list(dict_sizes):
 	# Encabezado de la lista
 	print("Opción" + "Precio".rjust(30 - len("Opción")) + "Código".rjust(10))
 	for i, j in dict_sizes.items():
-		print(j[0]  # Nombre
-		      + str(j[1]).rjust(30 - len(j[0]))  # Precio
+		print(j["name"]  # Nombre
+		      + str(j["price"]).rjust(30 - len(j["name"]))  # Precio
 		      + ("( " + i + " )").rjust(10))  # Código del pedido
 	print()
 	print("Otras opciones:")
