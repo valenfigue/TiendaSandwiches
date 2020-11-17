@@ -1,12 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""Contiene funciones con todos los mensajes mostrados al usuario durante el flujo del programa.
+
+Funciones:
+poster -- Cartel de la tienda de sándwiches.
+welcome -- Mensaje de bienvenida.
+options_list -- Lista de opciones disponibles (tamaños e ingredientes adicionales).
+sizes_list -- Bloque de opciones de tamaños de sándwiches disponibles.
+ingredients_list -- Bloque de opciones de ingredientes adicionales disponibles.
+error_ingredients -- Mensaje de error por falta de archivo "additionalingredients.txt".
+error_sizes -- Mensaje de error por falta de archivo "sandwichsizes.txt".
+sub_total -- Resumen de la orden.
+total -- Resumen del pedido.
+"""
 
 
 from datetime import datetime
 
 
 def poster():
-	"""Cartel de la tienda de sándwiches."""
+	"""Muestra el cartel de la tienda."""
 	
 	print("**************************\n"
 	      + "*" + "SÁNDWICHES UCAB".center(24) + "*\n"
@@ -17,6 +30,7 @@ def welcome():
 	"""Mensaje de entrada al iniciar el programa."""
 	poster()
 	
+	# Cambio de saludo según etapa del día.
 	if datetime.now().hour < 12:
 		print("Buenos días", end=" ")
 	elif datetime.now().hour < 20:
@@ -28,47 +42,56 @@ def welcome():
 Realice su pedido a continuación...""")
 
 
-def options_list(dict_sizes):
-	"""Genera la lista de las opciones disponibles,
-	ya sea los tamaños de sándwiches o de los ingredientes extras."""
+def options_list(dict_options: dict):
+	"""Lista de opciones disponibles para el usuario.
 	
-	# Encabezado de la lista
-	print("Opción" + "Precio".rjust(30 - len("Opción")) + "Código".rjust(10))
-	for i, j in dict_sizes.items():
+	Muestra la lista de los tamaños de sándwiches o de los ingredientes extras, según el argumento usado.
+	Argumentos:
+	dict_options -- Diccionario de ingredientes disponibles: los tamaños del sándwich o los ingredientes adicionales.
+	"""
+	
+	print("Opción" + "Precio".rjust(30 - len("Opción")) + "Código".rjust(10))  # Encabezado de la lista
+	# Generación de la lista por pantalla.
+	for i, j in dict_options.items():
 		print(j["name"]  # Nombre
 		      + str(j["price"]).rjust(30 - len(j["name"]))  # Precio
 		      + ("( " + i + " )").rjust(10))  # Código del pedido
-	print()
+	print()  # Separación del bloque de respuesta del usuario.
 
 
-def sizes_list(dict_sizes):
-	"""Muestra el bloque de opciones de tamaños de sándwiches disponibles."""
+def sizes_list(dict_sizes: dict):
+	"""Muestra el bloque de opciones de tamaños de sándwiches disponibles.
 	
-	print()
-	print("Por favor, elija el tamaño de su sándwich a ordenar.")
-	options_list(dict_sizes)
-
-
-def ingredients_list(dict_sizes):
-	"""Muestra el bloque de opciones de ingredientes adicionales disponibles."""
+	Argumentos:
+	dict_sizes -- Diccionario de tamaños.
+	"""
 	
-	print()
-	print("¿Desea algún ingrediente extra?")
-	options_list(dict_sizes)
-	print("Otras opciones:")
+	print()  # Separación del bloque anterior.
+	print("Por favor, elija el tamaño de su sándwich a ordenar.")  # Encabezado del bloque.
+	options_list(dict_sizes)  # Generación de la lista por pantalla.
+
+
+def ingredients_list(dict_ingredients: dict):
+	"""Muestra el bloque de opciones de ingredientes adicionales disponibles.
+	
+	Argumentos:
+	dict_ingredients -- Diccionario de ingredientes.
+	"""
+	
+	print()  # Separación del bloque anterior.
+	print("¿Desea algún ingrediente extra?")  # Encabezado del bloque.
+	options_list(dict_ingredients)  # Generación de la lista por pantalla.
+	print("Otras opciones:")  # Encabezado de otras opciones.
 	print("Cancelar último ingrediente"
 	      + "( reg )".rjust(50 - len("Cancelar último ingrediente")))
 	print("Cancelar todos los ingredientes extras"
 	      + "( can )".rjust(50
 	                        - len("Cancelar todos los ingredientes extras")))
-	print()
+	print()  # Separación del bloque de respuesta del usuario.
 
 
 def error_ingredients():
-	"""Mensaje de error en caso de que
-	no se haya encontrado el archivo
-	"additionalingredients.txt" o que
-	el mismo se encuentre vacío."""
+	"""Mensaje de error en caso de falta del archivo "additionalingredients.txt" o que el mismo se encuentre vacío."""
 	print("ATENCIÓN: en este momento,"
 	      " no contamos con ingredientes"
 	      " adicionales.\n"
@@ -76,18 +99,21 @@ def error_ingredients():
 
 
 def error_sizes():
-	"""Mensaje de error en caso de que
-	no se haya encontrado el archivo
-	"sandwichsizes.txt" o que
-	el mismo se encuentre vacío."""
+	"""Mensaje de error en caso de falta del archivo "sandwichsizes.txt" o que el mismo se encuentre vacío."""
 	print("ATENCIÓN: en este momento,"
 	      " no contamos con ingredientes"
 	      " para elaborar nuestros sándwiches.\n"
 	      "Lamentamos las molestias")
 
 
-def sub_total(order, sandwich, amount):
-	"""Mensaje a mostrar al dar el subtotal de la orden del usuario."""
+def sub_total(order: str, sandwich: str, amount: int):
+	"""Muestra el resumen de la orden con su subtotal y los ingredientes adicionales pedidos por el usuario.
+	
+	Argumentos:
+	order -- Cadena con la orden completa, incluyendo el tamaño del sándwich y los ingredientes adicionales.
+	sandwich -- Nombre del tamaño del sándwich.
+	amount -- Monto generado por esta orden.
+	"""
 	
 	print()
 	print("Usted seleccionó un sándwich", order)
@@ -97,14 +123,16 @@ def sub_total(order, sandwich, amount):
 	print("****************************")
 
 
-def total(n_sandwiches, amount):
-	"""Muestra el total de sándwiches pedidos y el precio a pagar por todos ellos.
+def total(n_sandwiches: int, amount: int):
+	"""Muestra el resumen del pedido, con el total de sándwiches y el precio a pagar por todos ellos.
 
-
+	Argumentos:
+	n_sandwiches -- número de sándwiches pedidos.
+	amount -- total a pagar.
 	"""
 	
 	print("\n\nEl pedido tiene un total de", n_sandwiches,
-	      ("sándwich" if n_sandwiches == 1 else "sándwiches") + ",",
+	      ("sándwich" if n_sandwiches == 1 else "sándwiches") + ",",  # Solo para estética del mensaje.
 	      "por un monto de", amount)
 	
 	print("\nGracias por su compra ¡Vuelva pronto!")

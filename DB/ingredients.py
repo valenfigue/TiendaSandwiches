@@ -1,21 +1,30 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""Contiene funciones que trabajan la información sobre los ingredientes adicionales para los sándwiches.
+
+Funciones:
+get_ingredients -- Obtiene el diccionario de los ingredientes adicionales.
+"""
 
 
 from os import path
-from . import reading_files
+from .reading_files import *
 from DB import FOLDER
 
 
 def get_ingredients():
-	"""Obtiene la lista de ingredientes adicionales
-	disponibles con sus respectivos precios."""
+	"""Obtiene un diccionario con los ingredientes adicionales disponibles junto con sus respectivos precios.
 	
-	file_path = FOLDER / "additionalingredients.txt"
+	Verifica la existencia del archivo "additionalingredients.txt" y envía su ruta a BD.reading_files.get_dictionary,
+	devolviendo un diccionario con la información leída en dicha función.
+	Si no encuentra el archivo, devuelve None.
+	"""
+	
+	file_path = FOLDER / "additionalingredients.txt"  # Formación de la ruta
 	
 	if path.exists(file_path):
 		# Donde se guardarán los ingredientes
-		dict_ingredients = reading_files.get_dictionary(file_path)
+		dict_ingredients = get_dictionary(file_path)
 		return dict_ingredients
-	else:
-		print("ingredientes")
+	# else:
+	# 	print("ingredientes")
