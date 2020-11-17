@@ -95,3 +95,16 @@ def sub_total(order, sandwich, amount):
 	print("Subtotal a pagar por un sándwich " + sandwich
 	      + ": " + str(amount))
 	print("****************************")
+
+
+def total(n_sandwiches, amount):
+	"""Muestra el total de sándwiches pedidos y el precio a pagar por todos ellos.
+
+
+	"""
+	
+	print("\n\nEl pedido tiene un total de", n_sandwiches,
+	      ("sándwich" if n_sandwiches == 1 else "sándwiches") + ",",
+	      "por un monto de", amount)
+	
+	print("\nGracias por su compra ¡Vuelva pronto!")

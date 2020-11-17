@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""Contiene funciones que realizan todos los cálculos referentes a las órdenes tomadas al usuario.
 
-"""Módulo en donde se realizan todos los cálculos referentes
-a las órdenes tomadas al usuario."""
+Funciones:
+size_order -- Maneja la elección del tamaño del sándwich.
+ingredients_order -- Maneja la elección de ingredientes adicionales.
+subtotal -- Resumen de la orden.
+total -- Resumen del pedido.
+"""
 
 
 from . import msg
@@ -117,12 +122,8 @@ def subtotal(sub_order):
 	return confirmation, amount
 
 
-def total(n_sandwiches, amount):
-	"""Muestra el total de sándwiches pedidos y el precio
-	a pagar por todos ellos."""
+def canceled_order(n_order: int, order: dict):
+	print("ATENCIÓN: ¡¡Orden", n_order, "cancelada!!")
+	order.pop(n_order)  # Se elimina la orden cancelada.
 	
-	print("\n\nEl pedido tiene un total de", n_sandwiches,
-	      ("sándwich" if n_sandwiches == 1 else "sándwiches") + ",",
-	      "por un monto de", amount)
-	
-	print("\nGracias por su compra ¡Vuelva pronto!")
+	return 's'  # Para que "next_order" permita volver a realizar el ciclo.
