@@ -123,16 +123,26 @@ def sub_total(order: str, sandwich: str, amount: int):
 	print("****************************")
 
 
-def total(n_sandwiches: int, amount: int):
-	"""Muestra el resumen del pedido, con el total de sándwiches y el precio a pagar por todos ellos.
+def order_list(order: dict):
+	"""Muestra el detalle final de las órdenes de usuario.
 
 	Argumentos:
-	n_sandwiches -- número de sándwiches pedidos.
-	amount -- total a pagar.
+	:argument order -- Diccionario con el pedido completo del usuario.
 	"""
 	
-	print("\n\nEl pedido tiene un total de", n_sandwiches,
-	      ("sándwich" if n_sandwiches == 1 else "sándwiches") + ",",  # Solo para estética del mensaje.
-	      "por un monto de", amount)
-	
-	print("\nGracias por su compra ¡Vuelva pronto!")
+	print("\nÓrdenes:")
+	print("N°  " + "Detalles".center(25))  # Encabezado de la lista
+	# Generación de la lista por pantalla.
+	for n_order, sub_order in order.items():
+		print(str(n_order).ljust(4) + "Sándwich ", end="")
+		print(sub_order["size"]["name"] + " con Queso", end="")  # Nombre
+		
+		for n_ing, ingrediente in sub_order["ing"].items():
+			if ingrediente:  # Solo si hay ingredientes adicionales.
+				if n_ing == max(list(sub_order["ing"])):  # Solo para estética del mensaje.
+					print(" y", end=" ")
+				else:
+					print(",", end=" ")
+				print(ingrediente.get("name"), end="")
+		print("\n\t" + "Subtotal:  ", sub_order["sub_total"])
+	print()  # Separación del bloque de respuesta del usuario.

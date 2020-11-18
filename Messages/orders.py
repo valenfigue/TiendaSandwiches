@@ -105,7 +105,7 @@ def subtotal(sub_order: dict):
 	Calcula y muestra el subtotal a pagar por una orden en específico, y lo retorna junto con la confirmación de
 	siguiente orden.
 	Argumentos:
-	sub_order -- Diccionario con la orden actual.
+	:argument sub_order -- Diccionario con la orden actual.
 	"""
 	
 	sandwich = sub_order.get("size").get("name")
@@ -133,7 +133,9 @@ def subtotal(sub_order: dict):
 			break
 		else:
 			print("¡¡Respuesta inválida!!")
-	return confirmation, amount
+	sub_order.update({"sub_total": amount})
+	
+	return confirmation
 
 
 def canceled_order(n_order: int, order: dict):
@@ -151,3 +153,22 @@ def canceled_order(n_order: int, order: dict):
 	order.pop(n_order)  # Se elimina la orden cancelada.
 	
 	return 's'  # Para que "next_order" permita volver a realizar el ciclo.
+
+
+def total(order: dict):
+	"""Muestra el resumen del pedido, con el total de sándwiches y el precio a pagar por todos ellos.
+
+	Argumentos:
+	order -- Pedido o diccionario con todas las órdenes del usuario.
+	amount -- Total a pagar.
+	"""
+	n_sandwiches = max(list(order))  # Número de sándwiches pedidos.
+	amount = 0
+	for n_order in order:
+		amount += order[n_order].get("sub_total")
+	
+	print("\n\nEl pedido tiene un total de", n_sandwiches,
+	      ("sándwich" if n_sandwiches == 1 else "sándwiches") + ",",  # Solo para estética del mensaje.
+	      "por un monto de", amount)
+	msg.order_list(order)
+	print("\n\nGracias por su compra ¡Vuelva pronto!")

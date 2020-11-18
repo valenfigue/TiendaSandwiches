@@ -16,16 +16,17 @@ def tienda():
 	
 	# Directorio que guarda toda la información de cada orden del pedido.
 	# Contiene: Número de orden. Para cada orden:
-	# El tamaño del sándwich y su precio; los ingredientes adicionales y el precio de cada uno.
-	order = {1: {"size": dict(),  # Visualización del directorio.
-	             "ing": {1: dict()}}}
+	# Visualización del directorio.
+	order = {1: {  # Número de la orden
+		"size": dict(),  # El tamaño del sándwich y su precio.
+		"ing": {1: dict()},  # Los ingredientes adicionales y el precio de cada uno.
+		"sub_total": 0}}  # El sub total de la orden.
+	
 	n_order = 1  # Número de orden del usuario.
 	next_order = 's'  # Confirmación para realizar la siguiente orden de sándwich
 	
-	total = 0  # Total a pagar.
-	
 	msg.welcome()  # Mensaje de bienvenida.
-
+	
 	if dict_sizes:  # En caso de que no encuentre el archivo "sandwichsizes.txt" o este esté vacío.
 		if not dict_ing:  # En caso de que no encuentre el archivo "additionalingredients.txt" o este esté vacío.
 			msg.error_ingredients()
@@ -44,12 +45,11 @@ def tienda():
 				order[n_order].update({"ing": {}})
 			
 			# Cálculo del subtotal de la orden y confirmación de siguiente orden.
-			next_order, sub_total = orders.subtotal(order.get(n_order))
+			next_order = orders.subtotal(order.get(n_order))
 			
 			# Cálculo del total del pedido.
 			if next_order == 'n':  # Ya no se desea realizar más órdenes...
-				total += sub_total
-				msg.total(n_order, total)  # Resumen del pedido.
+				msg.total(order)  # Resumen del pedido.
 			elif next_order == 'can':  # Cancelar la orden actual
 				next_order = orders.canceled_order(n_order, order)  # Cancelación de la orden.
 			else:  # Número de siguiente orden.
