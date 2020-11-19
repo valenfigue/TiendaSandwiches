@@ -1,44 +1,76 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Contiene una función para ejecutar la Tienda de Sándwiches UCAB."""
+# Author: Valentina Figueroa <valenfigue14@gmail.com>
+# Date: 2020-11-19
+"""Programa en Python sobre el mini proyecto 'Tienda de Sándwiches UCAB', de la electiva 'Programando con Python', UCAB.
+
+Funciones:
+
+- `tienda()`: función principal del programa.
+
+Cómo funciona este módulo
+=========================
+1.  Importa los paquetes DB, junto con sus módulos, y Messages, junto con los módulos orders y msg.
+	
+2.  Define una función que simula el flujo de una tienda de sándwiches. Puede levantar la excepción KeyboardInterrupt
+por combinación de teclas de interrupción dentro de la consola.
+	
+	Dentro de la definición de la función:
+	
+	a)  Se define los diccionarios con los ingredientes para los sándwiches::
+		dict_sizes
+		dict_ing
+		
+	b)  Se define el diccionario que contendrá cada orden del usuario::
+		order = {número de la orden: {"size": info del tamaño, "ing": info de los ingredientes,
+		"subtotal": monto por esa orden}}
+	
+	d)  Se maneja el caso de no encontrar los archivos que contienen los ingredientes y tamaños.
+"""
+__docformat__ = 'restructuredtext'
 
 from DB import sizes, ingredients as ing
 from Messages import orders, msg
-import os
 
 
 def tienda():
-	"""Función principal del programa."""
+	"""Función principal del programa.
+	
+	Saluda al usuario y toma su orden, que incluye el tamaño del sándwich y los ingredientes adicionales que desea.
+	Muestra e indica, por voz, el resumen de la orden y le pregunta si quiere realizar otra orden. Si es afirmativo,
+	se reinicia el ciclo. Cuando ya no sea afirmativo, muestra e indica, por voz, el resumen del pedido.
+	
+	:exception KeyboardInterrupt: si, por consola, el programa se interrumpe por combinación de teclas de interrupción.
+	"""
 	
 	# Ingredientes para hacer los sándwiches.
 	dict_sizes = sizes.get_sizes()  # Tamaños.
 	dict_ing = ing.get_ingredients()  # Ingredientes adicionales.
 	
-	# Directorio que guarda toda la información de cada orden del pedido.
-	# Contiene: Número de orden. Para cada orden:
-	# Visualización del directorio.
-	order = {1: {  # Número de la orden
-		"size": {  # El tamaño del sándwich y su precio.
-			"name": str(),
-			"price": 0},
-		"ing": {1: {  # Los ingredientes adicionales y el precio de cada uno.
-			"name": str(),
-			"price": 0}},
+	# Visualización del directorio que guarda toda la información de cada orden del pedido.
+	# Contiene:
+	order = {1: {  # Número de la orden. Para cada orden:
+		"size": {  # El tamaño del sándwich.
+			"name": str(),  # Nombre del tamaño.
+			"price": 0},  # Precio.
+		"ing": {1: {  # Los ingredientes adicionales. Para cada ingrediente.
+			"name": str(),  # Nombre del ingrediente.
+			"price": 0}},  # Precio.
 		"sub_total": 0}}  # El sub total de la orden.
 	
 	n_order = 1  # Número de orden del usuario.
 	next_order = 's'  # Confirmación para realizar la siguiente orden de sándwich
 	
+	# INICIO
 	msg.welcome()  # Mensaje de bienvenida.
-	
-	if dict_sizes:  # En caso de que no encuentre el archivo "sandwichsizes.txt" o este esté vacío.
+	if dict_sizes:
 		if not dict_ing:  # En caso de que no encuentre el archivo "additionalingredients.txt" o este esté vacío.
 			msg.error_ingredients()
-		
 		try:
 			while next_order == 's':  # Mientras que se quiera otra orden...
 				msg.number_sandwich(n_order)
 				
+				# REALIZACIÓN DE LA ORDEN.
 				# Pregunta sobre el tamaño de sándwich.
 				order.update({n_order: {"size": orders.size_order(dict_sizes)}})
 				
@@ -49,6 +81,7 @@ def tienda():
 					# "additionalingredients.txt" o este esté vacío.
 					order[n_order].update({"ing": {}})
 				
+				# CÁLCULOS DE LA ORDEN.
 				# Cálculo del subtotal de la orden y confirmación de siguiente orden.
 				next_order = orders.subtotal(order.get(n_order))
 				
@@ -59,15 +92,14 @@ def tienda():
 				elif next_order == 'can':  # Cancelar la orden actual
 					next_order = orders.canceled_order(n_order, order)  # Cancelación de la orden.
 				
-				else:  # Número de siguiente orden.
+				else:  # Sí se desea tomar otra orden...
 					n_order += 1
-					os.system("cls")
-		except KeyboardInterrupt:  # En caso de interrumpir el programa por consola con combinación de teclas CONTROL+C
+		except KeyboardInterrupt:  # En caso de interrumpir el programa por consola con combinación de teclas CONTROL+C.
 			message = "¡Hasta pronto!"
 			print("\n\n" + message)
 			msg.voices.talk(message)
 			
-	else:
+	else:  # En caso de que no encuentre el archivo "sandwichsizes.txt" o este esté vacío.
 		msg.error_sizes()
 
 

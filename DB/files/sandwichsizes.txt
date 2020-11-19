@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# Author: Valentina Figueroa <valenfiguer14@gmail.com>
 t
 Triple
 580
