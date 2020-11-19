@@ -9,8 +9,7 @@ subtotal -- Resumen de la orden.
 canceled_order -- Maneja la cancelación de una orden por el usuario.
 """
 
-
-from . import msg
+from . import msg, voices, y_or_comma
 
 
 def size_order(dict_sizes: dict):
@@ -24,29 +23,30 @@ def size_order(dict_sizes: dict):
 	# Se muestran las opciones de tamaños de sandwiches
 	msg.sizes_list(dict_sizes)
 	
-	# Proceso de elección
-	while True:
+	while True:  # Proceso de elección
 		confirmation = '.'
 		election = input("Opción a elegir: ").lower()
 		
 		if election in list(dict_sizes):
 			# Muestra, al usuario, la opción que escogió.
 			print("Tamaño solicitado:", dict_sizes.get(election)["name"])
+			voices.selected_size_voice(dict_sizes.get(election)["name"])
 			
-			# Confirmación del pedido:
-			while True:
+			voices.confirmation_voice()
+			while True:  # Confirmación del pedido:
 				confirmation = input("Presione <ENTER> para continuar,"
-				                     " o escriba 'cancelar'"
+				                     " o escriba 'can'"
 				                     " para elegir otra"
-				                     " opción: ")
+				                     " opción: ").rstrip()
 				if confirmation == 'cancelar' or confirmation == '':
 					break
 				else:
+					voices.wrong_answer_voice()
 					print("¡¡Debe confirmar o cancelar su elección!!")
 		else:
+			voices.wrong_answer_voice()
 			print("¡¡Debe elegir el tamaño correcto!!")
-		# Opción confirmada. Continúa...
-		if confirmation == '':
+		if confirmation == '':  # Opción confirmada. Continúa...
 			break
 	return dict_sizes.get(election)
 
@@ -60,7 +60,9 @@ def ingredients_order(dict_ingredients: dict):
 	"""
 	
 	# Diccionario que guardará los ingredientes seleccionados.
-	order = {1: dict()}  # Visualización del directorio
+	order = {1: {  # Visualización del directorio
+		"name": str(),  # Nombre del ingrediente seleccionado.
+		"price": 0}}  # Precio del ingrediente seleccionado.
 	n_order = max(list(order))  # Número de orden de ingredientes adicionales
 
 	# Se muestran los ingredientes adicionales disponibles.
@@ -84,6 +86,7 @@ def ingredients_order(dict_ingredients: dict):
 					n_order -= 1
 					print("ATENCIÓN: último ingrediente"
 					      " eliminado de la orden.")
+					voices.ingredients_canceled_voice(election)
 					continue
 				# Eliminar todos los ingredientes seleccionados
 				elif election == 'can':
@@ -91,10 +94,12 @@ def ingredients_order(dict_ingredients: dict):
 					print("ATENCIÓN: todos los ingredientes"
 					      " eliminados de la orden")
 					n_order = 1
+					voices.ingredients_canceled_voice(election)
 					continue
 			if election == '':  # Terminar
 				break
 			else:
+				voices.wrong_answer_voice()
 				print("¡¡Debe elegir el ingrediente adicional correcto!!")
 	return order
 
@@ -105,7 +110,7 @@ def subtotal(sub_order: dict):
 	Calcula y muestra el subtotal a pagar por una orden en específico, y lo retorna junto con la confirmación de
 	siguiente orden.
 	Argumentos:
-	:argument sub_order -- Diccionario con la orden actual.
+	:argument sub_order Diccionario con la orden actual.
 	"""
 	
 	sandwich = sub_order.get("size").get("name")
@@ -113,18 +118,15 @@ def subtotal(sub_order: dict):
 	amount = sub_order.get("size").get("price")
 	
 	# Cálculo del subtotal de la orden.
-	for i, j in sub_order["ing"].items():
-		if j:
-			if i == max(list(sub_order["ing"])):  # Solo para estética del mensaje.
-				order += " y "
-			else:
-				order += ", "
-			
-			order += j.get("name")  # Orden actual.
-			amount += j.get("price")  # Sub total de la orden.
+	for n_ing, ingredient in sub_order["ing"].items():
+		order += str(y_or_comma(n_ing, sub_order["ing"]))
+		order += ingredient.get("name")  # Orden actual.
+		amount += ingredient.get("price")  # Sub total de la orden.
 	msg.sub_total(order, sandwich, amount)  # Mensaje
+	
 	while True:  # Confirmación
 		print("¿Desea continuar? [s/n]")
+		voices.next_order_voice()
 		print("Si desea cancelar toda la orden"
 		      " de este sándwich, ingrese 'can'.")
 		confirmation = input("Respuesta: ").rstrip().lower()
@@ -133,6 +135,7 @@ def subtotal(sub_order: dict):
 			break
 		else:
 			print("¡¡Respuesta inválida!!")
+			voices.wrong_answer_voice()
 	sub_order.update({"sub_total": amount})
 	
 	return confirmation
@@ -166,9 +169,11 @@ def total(order: dict):
 	amount = 0
 	for n_order in order:
 		amount += order[n_order].get("sub_total")
-	
-	print("\n\nEl pedido tiene un total de", n_sandwiches,
+		
+	msg.order_list(order)
+	print("\nEl pedido tiene un total de", n_sandwiches,
 	      ("sándwich" if n_sandwiches == 1 else "sándwiches") + ",",  # Solo para estética del mensaje.
 	      "por un monto de", amount)
-	msg.order_list(order)
 	print("\n\nGracias por su compra ¡Vuelva pronto!")
+	
+	voices.total_voice(n_sandwiches, amount)

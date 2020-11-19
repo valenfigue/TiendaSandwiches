@@ -16,6 +16,7 @@ total -- Resumen del pedido.
 
 
 from datetime import datetime
+from . import voices, y_or_comma
 
 
 def poster():
@@ -31,15 +32,21 @@ def welcome():
 	poster()
 	
 	# Cambio de saludo según etapa del día.
-	if datetime.now().hour < 12:
+	if 5 <= datetime.now().hour < 12:
 		print("Buenos días", end=" ")
-	elif datetime.now().hour < 20:
+	elif 12 <= datetime.now().hour < 20:
 		print("Buenas tardes", end=" ")
 	else:
 		print("Buenas noches", end=" ")
 	
 	print("""¡Bienvenid@ a SÁNDWICHES UCAB!
 Realice su pedido a continuación...""")
+	voices.welcome_voice()
+
+
+def number_sandwich(n_order: int):
+	print("\n\nSándwich número", n_order)
+	voices.number_sandwich_voice(str(n_order))
 
 
 def options_list(dict_options: dict):
@@ -67,8 +74,9 @@ def sizes_list(dict_sizes: dict):
 	"""
 	
 	print()  # Separación del bloque anterior.
-	print("Por favor, elija el tamaño de su sándwich a ordenar.")  # Encabezado del bloque.
+	print("Por favor, elija el tamaño del sándwich a ordenar.")  # Encabezado del bloque.
 	options_list(dict_sizes)  # Generación de la lista por pantalla.
+	voices.sizes_list_voice()
 
 
 def ingredients_list(dict_ingredients: dict):
@@ -88,6 +96,7 @@ def ingredients_list(dict_ingredients: dict):
 	      + "( can )".rjust(50
 	                        - len("Cancelar todos los ingredientes extras")))
 	print()  # Separación del bloque de respuesta del usuario.
+	voices.ingredients_list_voice()
 
 
 def error_ingredients():
@@ -121,28 +130,24 @@ def sub_total(order: str, sandwich: str, amount: int):
 	print("Subtotal a pagar por un sándwich " + sandwich
 	      + ": " + str(amount))
 	print("****************************")
+	voices.sub_total_voice(order)
 
 
 def order_list(order: dict):
 	"""Muestra el detalle final de las órdenes de usuario.
 
 	Argumentos:
-	:argument order -- Diccionario con el pedido completo del usuario.
+	:argument order Diccionario con el pedido completo del usuario.
 	"""
 	
-	print("\nÓrdenes:")
-	print("N°  " + "Detalles".center(25))  # Encabezado de la lista
+	print("\n\nRESUMEN DEL PEDIDO:".center(34))
+	print("N°  " + "Orden".center(30))  # Encabezado de la lista
 	# Generación de la lista por pantalla.
 	for n_order, sub_order in order.items():
 		print(str(n_order).ljust(4) + "Sándwich ", end="")
 		print(sub_order["size"]["name"] + " con Queso", end="")  # Nombre
 		
-		for n_ing, ingrediente in sub_order["ing"].items():
-			if ingrediente:  # Solo si hay ingredientes adicionales.
-				if n_ing == max(list(sub_order["ing"])):  # Solo para estética del mensaje.
-					print(" y", end=" ")
-				else:
-					print(",", end=" ")
-				print(ingrediente.get("name"), end="")
+		for n_ing, ingredient in sub_order["ing"].items():
+			print(str(y_or_comma(n_ing, sub_order["ing"])), end="")
+			print(ingredient.get("name"), end="")
 		print("\n\t" + "Subtotal:  ", sub_order["sub_total"])
-	print()  # Separación del bloque de respuesta del usuario.
