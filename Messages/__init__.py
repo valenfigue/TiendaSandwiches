@@ -24,8 +24,8 @@ def y_or_comma(key: int, dictionary: dict) -> str:
 	:argument key: Clave del valor usado en la función que llama a ésta.
 	:argument dictionary: Diccionario que guarda los elementos usados en la función que llama a ésta
 	"""
-
-	if max(list(dictionary)) >= 1:
+	
+	if dictionary[key]["name"] != '':
 		if key == max(list(dictionary)):
 			return str(" y ")
 		else:
