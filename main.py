@@ -62,10 +62,10 @@ def tienda():
 	next_order = 's'  # Confirmación para realizar la siguiente orden de sándwich
 	
 	# INICIO
-	msg.welcome()  # Mensaje de bienvenida.
 	if dict_sizes:
 		if not dict_ing:  # En caso de que no encuentre el archivo "additionalingredients.txt" o este esté vacío.
 			msg.error_ingredients()
+		msg.welcome()  # Mensaje de bienvenida.
 		try:
 			while next_order == 's':  # Mientras que se quiera otra orden...
 				msg.number_sandwich(n_order)
@@ -94,10 +94,10 @@ def tienda():
 				
 				else:  # Sí se desea tomar otra orden...
 					n_order += 1
+			else:
+				msg.ending()  # Salida del programa.
 		except KeyboardInterrupt:  # En caso de interrumpir el programa por consola con combinación de teclas CONTROL+C.
-			message = "¡Hasta pronto!"
-			print("\n\n" + message)
-			msg.voices.talk(message)
+			msg.interruption_goodbye()
 			
 	else:  # En caso de que no encuentre el archivo "sandwichsizes.txt" o este esté vacío.
 		msg.error_sizes()

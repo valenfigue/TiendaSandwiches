@@ -113,7 +113,7 @@ def error_ingredients():
 	print("ATENCIÓN: en este momento,"
 	      " no contamos con ingredientes"
 	      " adicionales.\n"
-	      "Lamentamos las molestias")
+	      "Lamentamos las molestias.\n\n")
 
 
 def error_sizes():
@@ -121,7 +121,7 @@ def error_sizes():
 	print("ATENCIÓN: en este momento,"
 	      " no contamos con ingredientes"
 	      " para elaborar nuestros sándwiches.\n"
-	      "Lamentamos las molestias")
+	      "Lamentamos las molestias.\n\n")
 
 
 def sub_total(order: str, sandwich: str, amount: int):
@@ -158,3 +158,15 @@ def order_list(order: dict):
 			print(str(y_or_comma(n_ing, sub_order["ing"])), end="")  # Solo por fines estéticos.
 			print(ingredient.get("name"), end="")
 		print("\n\t" + "Subtotal:  ", sub_order["sub_total"])  # Subtotal de la orden.
+
+
+def ending():
+	input("Presione <ENTER> para salir...")
+
+
+def interruption_goodbye():
+	message = "¡Hasta pronto!"
+	print("\n\n" + message)
+	voices.interruption_goodbye_voice(message)
+	ending()
+

@@ -211,3 +211,7 @@ def canceled_order_voice(n_order: str):
 	
 	message = "ATENCIÓN: ¡¡Orden" + n_order + "cancelada!!"
 	talk(message)
+
+
+def interruption_goodbye_voice(message: str):
+	talk(message)

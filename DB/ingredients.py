@@ -8,20 +8,19 @@ Funciones:
 """
 
 
-from os import path
 from .reading_files import *
-from DB import FOLDER
+from DB import FOLDER, resolver_ruta
 
 
 def get_ingredients():
 	"""Obtiene un diccionario con los ingredientes adicionales disponibles junto con sus respectivos precios.
 	
-	Verifica la existencia del archivo "additionalingredients.txt" y envía su ruta a BD.reading_files.get_dictionary,
-	devolviendo un diccionario con la información leída en dicha función. Si no encuentra el archivo, devuelve None.
+	Envía la ruta del archivo "additionalingredients.txt" a BD.reading_files.get_dictionary, devolviendo un
+	diccionario con la información leída en dicha función.
 	"""
 	
-	file_path = FOLDER / "additionalingredients.txt"  # Formación de la ruta
+	file = "additionalingredients.txt"
+	file_path = FOLDER / file  # Formación de la ruta
+	resolved_file_path = resolver_ruta(file_path)  # Resolución de la ruta para el ejecutable.
 	
-	if path.exists(file_path):
-		dict_ingredients = get_dictionary(file_path)  # Donde se guardarán los ingredientes
-		return dict_ingredients
+	return get_dictionary(resolved_file_path)
