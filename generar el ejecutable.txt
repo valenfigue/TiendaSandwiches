@@ -2,5 +2,9 @@ Crear el ejecutable:
 pyinstaller --hidden-import=pyttsx3.drivers --hidden-import=pyttsx3.drivers.sapi5 --onefile main.py
 
 AGREGAR AL SPEC, LUEGO DE LA ASIGNACIÓN A a:
-a.data += [("./DB/file/additionalingredients.txt", "additionalingredients.txt", "DATA"),
-        ("./DB/file/sandwichsizes.txt", "sandwichsizes.txt", "DATA")]
+
+a.datas += [("./DB/files/additionalingredients.txt", "DB/files/additionalingredients.txt", "DATA"),
+        ("./DB/files/sandwichsizes.txt", "DB/files/sandwichsizes.txt", "DATA")]
+
+Ejecutar comando luego de creación del ejecutable:
+pyinstaller --onefile main.spec
