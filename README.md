@@ -9,7 +9,7 @@ Semestre octubre-febrero 2020-2021.
 ## Información técnica
 - SO: Windows 10
 - Python: versión 3.9
-- IDE: PyCharm Community
+- IDE: PyCharm Community Edition 2020.2.2
 
 ## Librerías de Python usadas:
 Para la realización de funcionalidades adicionales, 
