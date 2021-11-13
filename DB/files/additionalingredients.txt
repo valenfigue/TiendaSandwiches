@@ -22,3 +22,6 @@ Pepperoni
 sa
 Salchichón
 62.5
+tc
+Tocineta
+55

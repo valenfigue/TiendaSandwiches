@@ -32,6 +32,7 @@ def resolver_ruta(ruta_relativa: str):
 	resolverá la ruta en donde se empaquetan los assets.
 	
 	@author parzibyte
+	
 	:param ruta_relativa: Ruta del archivo a resolver por la función.
 	"""
 	
